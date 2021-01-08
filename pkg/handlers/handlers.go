@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	mw "github.com/nikimanoledaki/tracing-tutorial/pkg/tracing"
-	"github.com/opentracing/opentracing-go/log"
 )
 
 // GetData is an example handler func.
@@ -17,14 +16,8 @@ func GetData() http.HandlerFunc {
 		// without errors. It logs any db-related errors
 		// before returning.
 
-		// Setting tags here
+		// Set tags here
 		span.SetTag("kind", "client")
-		span.SetTag("db.type", "presto")
-		span.SetTag("db.statement", "SELECT * FROM db")
-
-		rows, err := s.Db.Query(stmt, args...)
-		if err != nil {
-			log.Error(err)
-		}
+		span.SetTag("path", r.URL.Path)
 	}
 }

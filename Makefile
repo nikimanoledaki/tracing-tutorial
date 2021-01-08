@@ -1,3 +1,13 @@
+build:
+	mkdir build
+	go build -o build/api main.go
+
+run:
+	go run main.go
+
+down: jaeger-down
+	rm -rf build
+
 jaeger-up:
 	docker run -d --name jaeger \
 		-e COLLECTOR_ZIPKIN_HTTP_PORT=9411 \
@@ -12,4 +22,5 @@ jaeger-up:
 		jaegertracing/all-in-one:1.20
 
 jaeger-down:
-	docker kill jaeger && docker rm jaeger
+	-docker kill jaeger
+	-docker rm jaeger
